@@ -40,11 +40,12 @@
 			this.directoriesBindingSource = new System.Windows.Forms.BindingSource(this.components);
 			this.directoryDataSet = new DirSizeChecker.DirectoryDataSet();
 			this.labelFullPath = new System.Windows.Forms.Label();
+			this.directoryList = new System.Windows.Forms.DataGridView();
+			this.bgReader = new System.ComponentModel.BackgroundWorker();
+			this.label1 = new System.Windows.Forms.Label();
 			this.buttonExecute = new DirSizeChecker.VisualButton();
 			this.buttonReload = new DirSizeChecker.VisualButton();
 			this.buttonMoveUp = new DirSizeChecker.VisualButton();
-			this.directoryList = new System.Windows.Forms.DataGridView();
-			this.bgReader = new System.ComponentModel.BackgroundWorker();
 			((System.ComponentModel.ISupportInitialize)(this.mainSplit)).BeginInit();
 			this.mainSplit.Panel1.SuspendLayout();
 			this.mainSplit.Panel2.SuspendLayout();
@@ -72,6 +73,7 @@
 			// mainSplit.Panel2
 			// 
 			this.mainSplit.Panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(228)))), ((int)(((byte)(235)))), ((int)(((byte)(240)))));
+			this.mainSplit.Panel2.Controls.Add(this.label1);
 			this.mainSplit.Panel2.Controls.Add(this.buttonExecute);
 			this.mainSplit.Panel2.Controls.Add(this.buttonReload);
 			this.mainSplit.Panel2.Controls.Add(this.buttonMoveUp);
@@ -139,59 +141,6 @@
 			this.labelFullPath.Text = "-";
 			this.labelFullPath.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			// 
-			// buttonExecute
-			// 
-			this.buttonExecute.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.buttonExecute.BackColor = System.Drawing.Color.Transparent;
-			this.buttonExecute.BackgroundImage = global::DirSizeChecker.Properties.Resources.button_analyze;
-			this.buttonExecute.FlatAppearance.BorderSize = 0;
-			this.buttonExecute.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.buttonExecute.ImageDisabled = global::DirSizeChecker.Properties.Resources.button_analyze_disabled;
-			this.buttonExecute.ImageOnDown = global::DirSizeChecker.Properties.Resources.button_analyze_down;
-			this.buttonExecute.ImageOnHover = global::DirSizeChecker.Properties.Resources.button_analyze_hover;
-			this.buttonExecute.ImageOnUp = global::DirSizeChecker.Properties.Resources.button_analyze;
-			this.buttonExecute.Location = new System.Drawing.Point(24, 416);
-			this.buttonExecute.Name = "buttonExecute";
-			this.buttonExecute.Size = new System.Drawing.Size(192, 32);
-			this.buttonExecute.TabIndex = 6;
-			this.buttonExecute.UseVisualStyleBackColor = false;
-			this.buttonExecute.Click += new System.EventHandler(this.ButtonExecute_Click);
-			// 
-			// buttonReload
-			// 
-			this.buttonReload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonReload.BackColor = System.Drawing.Color.Transparent;
-			this.buttonReload.BackgroundImage = global::DirSizeChecker.Properties.Resources.button_reload;
-			this.buttonReload.FlatAppearance.BorderSize = 0;
-			this.buttonReload.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.buttonReload.ImageDisabled = global::DirSizeChecker.Properties.Resources.button_reload_disabled;
-			this.buttonReload.ImageOnDown = global::DirSizeChecker.Properties.Resources.button_reload_down;
-			this.buttonReload.ImageOnHover = global::DirSizeChecker.Properties.Resources.button_reload_hover;
-			this.buttonReload.ImageOnUp = global::DirSizeChecker.Properties.Resources.button_reload;
-			this.buttonReload.Location = new System.Drawing.Point(176, 8);
-			this.buttonReload.Name = "buttonReload";
-			this.buttonReload.Size = new System.Drawing.Size(56, 32);
-			this.buttonReload.TabIndex = 5;
-			this.buttonReload.UseVisualStyleBackColor = false;
-			this.buttonReload.Click += new System.EventHandler(this.ButtonReload_Click);
-			// 
-			// buttonMoveUp
-			// 
-			this.buttonMoveUp.BackColor = System.Drawing.Color.Transparent;
-			this.buttonMoveUp.BackgroundImage = global::DirSizeChecker.Properties.Resources.button_up;
-			this.buttonMoveUp.FlatAppearance.BorderSize = 0;
-			this.buttonMoveUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.buttonMoveUp.ImageDisabled = global::DirSizeChecker.Properties.Resources.button_up_disabled;
-			this.buttonMoveUp.ImageOnDown = global::DirSizeChecker.Properties.Resources.button_up_down;
-			this.buttonMoveUp.ImageOnHover = global::DirSizeChecker.Properties.Resources.button_up_hover;
-			this.buttonMoveUp.ImageOnUp = global::DirSizeChecker.Properties.Resources.button_up;
-			this.buttonMoveUp.Location = new System.Drawing.Point(8, 0);
-			this.buttonMoveUp.Name = "buttonMoveUp";
-			this.buttonMoveUp.Size = new System.Drawing.Size(80, 32);
-			this.buttonMoveUp.TabIndex = 4;
-			this.buttonMoveUp.UseVisualStyleBackColor = false;
-			this.buttonMoveUp.Click += new System.EventHandler(this.ButtonMoveUp_Click);
-			// 
 			// directoryList
 			// 
 			this.directoryList.AllowUserToAddRows = false;
@@ -233,7 +182,7 @@
 			this.directoryList.RowTemplate.Height = 32;
 			this.directoryList.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
 			this.directoryList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.directoryList.Size = new System.Drawing.Size(224, 368);
+			this.directoryList.Size = new System.Drawing.Size(226, 344);
 			this.directoryList.TabIndex = 3;
 			this.directoryList.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.directoryList_DataError);
 			this.directoryList.Sorted += new System.EventHandler(this.directoryList_Sorted);
@@ -244,6 +193,69 @@
 			this.bgReader.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgReader_DoWork);
 			this.bgReader.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgReader_ProgressChanged);
 			this.bgReader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgReader_RunWorkerCompleted);
+			// 
+			// label1
+			// 
+			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(24, 432);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(163, 12);
+			this.label1.TabIndex = 7;
+			this.label1.Text = "(c) 2014 CERES SOFT Co. Ltd.";
+			// 
+			// buttonExecute
+			// 
+			this.buttonExecute.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+			this.buttonExecute.BackColor = System.Drawing.Color.Transparent;
+			this.buttonExecute.BackgroundImage = global::DirSizeChecker.Properties.Resources.button_analyze;
+			this.buttonExecute.FlatAppearance.BorderSize = 0;
+			this.buttonExecute.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.buttonExecute.ImageDisabled = global::DirSizeChecker.Properties.Resources.button_analyze_disabled;
+			this.buttonExecute.ImageOnDown = global::DirSizeChecker.Properties.Resources.button_analyze_down;
+			this.buttonExecute.ImageOnHover = global::DirSizeChecker.Properties.Resources.button_analyze_hover;
+			this.buttonExecute.ImageOnUp = global::DirSizeChecker.Properties.Resources.button_analyze;
+			this.buttonExecute.Location = new System.Drawing.Point(24, 392);
+			this.buttonExecute.Name = "buttonExecute";
+			this.buttonExecute.Size = new System.Drawing.Size(192, 32);
+			this.buttonExecute.TabIndex = 6;
+			this.buttonExecute.UseVisualStyleBackColor = false;
+			this.buttonExecute.Click += new System.EventHandler(this.ButtonExecute_Click);
+			// 
+			// buttonReload
+			// 
+			this.buttonReload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonReload.BackColor = System.Drawing.Color.Transparent;
+			this.buttonReload.BackgroundImage = global::DirSizeChecker.Properties.Resources.button_reload;
+			this.buttonReload.FlatAppearance.BorderSize = 0;
+			this.buttonReload.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.buttonReload.ImageDisabled = global::DirSizeChecker.Properties.Resources.button_reload_disabled;
+			this.buttonReload.ImageOnDown = global::DirSizeChecker.Properties.Resources.button_reload_down;
+			this.buttonReload.ImageOnHover = global::DirSizeChecker.Properties.Resources.button_reload_hover;
+			this.buttonReload.ImageOnUp = global::DirSizeChecker.Properties.Resources.button_reload;
+			this.buttonReload.Location = new System.Drawing.Point(178, 8);
+			this.buttonReload.Name = "buttonReload";
+			this.buttonReload.Size = new System.Drawing.Size(56, 32);
+			this.buttonReload.TabIndex = 5;
+			this.buttonReload.UseVisualStyleBackColor = false;
+			this.buttonReload.Click += new System.EventHandler(this.ButtonReload_Click);
+			// 
+			// buttonMoveUp
+			// 
+			this.buttonMoveUp.BackColor = System.Drawing.Color.Transparent;
+			this.buttonMoveUp.BackgroundImage = global::DirSizeChecker.Properties.Resources.button_up;
+			this.buttonMoveUp.FlatAppearance.BorderSize = 0;
+			this.buttonMoveUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.buttonMoveUp.ImageDisabled = global::DirSizeChecker.Properties.Resources.button_up_disabled;
+			this.buttonMoveUp.ImageOnDown = global::DirSizeChecker.Properties.Resources.button_up_down;
+			this.buttonMoveUp.ImageOnHover = global::DirSizeChecker.Properties.Resources.button_up_hover;
+			this.buttonMoveUp.ImageOnUp = global::DirSizeChecker.Properties.Resources.button_up;
+			this.buttonMoveUp.Location = new System.Drawing.Point(8, 0);
+			this.buttonMoveUp.Name = "buttonMoveUp";
+			this.buttonMoveUp.Size = new System.Drawing.Size(80, 32);
+			this.buttonMoveUp.TabIndex = 4;
+			this.buttonMoveUp.UseVisualStyleBackColor = false;
+			this.buttonMoveUp.Click += new System.EventHandler(this.ButtonMoveUp_Click);
 			// 
 			// MainForm
 			// 
@@ -257,6 +269,7 @@
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.mainSplit.Panel1.ResumeLayout(false);
 			this.mainSplit.Panel2.ResumeLayout(false);
+			this.mainSplit.Panel2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.mainSplit)).EndInit();
 			this.mainSplit.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.volumeGraph)).EndInit();
@@ -279,6 +292,7 @@
 		private VisualButton buttonExecute;
 		private System.Windows.Forms.BindingSource directoriesBindingSource;
 		private DirectoryDataSet directoryDataSet;
+		private System.Windows.Forms.Label label1;
     }
 }
 
