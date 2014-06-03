@@ -299,10 +299,14 @@ namespace DirSizeChecker
                 //初期化処理
                 this.Init();
 
-                //初期ディレクトリ：ユーザーのデスクトップ
-                string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+				//2014/05/30:変更:CS)土田 >>>>> ここから
+                ////初期ディレクトリ：ユーザーのデスクトップ
+                //string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+				//初期ディレクトリ：ユーザーのドキュメント
+				string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+				//2014/06/03:変更:CS)土田 <<<<< ここまで
 
-                //表示更新
+				//表示更新
                 //※呼び出し先でnullチェックするので、ここでは不要
                 this.UpdateAll(path);
             }
@@ -313,6 +317,41 @@ namespace DirSizeChecker
             }
 
             Logger.Debug("MainForm_Load 成功");
+        }
+
+        /// <summary>
+        /// データエラーによる例外への処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void directoryList_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            if (e.Exception != null)
+            {
+				//例外を握りつぶして処理終了
+                Logger.WarnFormat("directoryList データエラーによる例外が発生 (理由={0})", e.Exception);
+            }
+        }
+
+        /// <summary>
+        /// ユーザー操作でソート方法が変更された時の処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void directoryList_Sorted(object sender, EventArgs e)
+        {
+            Logger.Info("directoryList ソート順変更");
+
+            try
+            {
+                //データバインドをやり直し、円グラフにも同じソート順を適用する。
+                this.volumeGraph.DataBind();
+            }
+            catch (Exception ex)
+            {
+                Logger.WarnFormat("bgReader_RunWorkerCompleted 処理中に例外が発生 (理由={0})", ex);
+                return;
+            }
         }
 
         /// <summary>
@@ -342,9 +381,9 @@ namespace DirSizeChecker
                 string path = e.Argument as string;
 				bool isEmpty = string.IsNullOrEmpty(path);
 
-                //パスを取得できなければキャンセル扱いで終了
 				if (isEmpty)
                 {
+					//パスを取得できなければキャンセル扱いで終了
 					e.Cancel = true;
 
 					Logger.Debug("パスが空だったため終了");
@@ -358,7 +397,11 @@ namespace DirSizeChecker
 				//result = this.dataModel.ReadDirectory(path);
 
 				//解析結果を取得
-				bool result = this.dataModel.ReadDirectory(path);
+				//2014/06/03:変更:>>>>>ここから
+				//bool result = this.dataModel.ReadDirectory(path);
+				bool result = this.dataModel.ReadDirectory(path, this.bgReader);
+				//2014/06/03:変更:<<<<<ここまで
+
 				//2014/05/30:変更:<<<<<ここまで
 
 				//結果をbgReader_RunWorkerCompletedに渡す
@@ -447,39 +490,41 @@ namespace DirSizeChecker
             Logger.Debug("bgReader_RunWorkerCompleted 成功");
         }
 
-        /// <summary>
-        /// データエラーによる例外への処理
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void directoryList_DataError(object sender, DataGridViewDataErrorEventArgs e)
-        {
-            if (e.Exception != null)
-            {
-				//例外を握りつぶして処理終了
-                Logger.WarnFormat("directoryList データエラーによる例外が発生 (理由={0})", e.Exception);
-            }
-        }
+		/// <summary>
+		///	バックグラウンド処理の進行状況通知
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void bgReader_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
+		{
+			//※この処理はUIスレッドで行われる
+			Logger.Debug("bgReader_ProgressChanged 呼び出し");
 
-        /// <summary>
-        /// ユーザー操作でソート方法が変更された時の処理
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void directoryList_Sorted(object sender, EventArgs e)
-        {
-            Logger.Info("directoryList ソート順変更");
+			try
+			{
+				//検出したフォルダ数
+				long? found = e.UserState as long?;
 
-            try
-            {
-                //データバインドをやり直し、円グラフにも同じソート順を適用する。
-                this.volumeGraph.DataBind();
-            }
-            catch (Exception ex)
-            {
-                Logger.WarnFormat("bgReader_RunWorkerCompleted 処理中に例外が発生 (理由={0})", ex);
-                return;
-            }
-        }
+				if (!found.HasValue)
+				{
+					//検出数を受け取れなかったら終了
+					Logger.Debug("UserStateを取得できなかったため終了");
+					return;
+				}
+
+				//進捗メッセージ
+				string msg = string.Format(Properties.Resources.MsgProgress, Properties.Resources.MsgLoading, found);
+
+				//ラベルに設定
+				this.labelFullPath.Text = msg;
+			}
+			catch (Exception ex)
+			{
+				Logger.WarnFormat("bgReader_ProgressChanged 処理中に例外が発生 (理由={0})", ex);
+				return;
+			}
+
+			Logger.Debug("bgReader_ProgressChanged 成功");
+		}
     }
 }

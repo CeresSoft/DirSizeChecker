@@ -13,6 +13,7 @@
 using System;
 using System.Data;
 using System.IO;
+using System.ComponentModel;
 
 namespace DirSizeChecker
 {
@@ -23,10 +24,10 @@ namespace DirSizeChecker
     {
         private static log4net.ILog Logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        /// <summary>
-        /// 配列の長さ0を判定するための定数
-        /// </summary>
-        private const int LENGTH_ZERO = 0;
+		/// <summary>
+		/// 進捗パーセンテージの初期値
+		/// </summary>
+		private const int PERCENT_ZERO = 0;
 
         /// <summary>
         /// 合計ファイルサイズの初期値（エラー値扱い）
@@ -39,6 +40,11 @@ namespace DirSizeChecker
         private const long COUNT_ZERO = 0L;
 
 		//2014/05/30:削除:>>>>>ここから
+        /// <summary>
+        /// 配列の長さ0を判定するための定数
+        /// </summary>
+        //private const int LENGTH_ZERO = 0;
+
         /// <summary>
         /// テーブルカラム：ディレクトリ名
         /// </summary>
@@ -215,9 +221,10 @@ namespace DirSizeChecker
         /// <summary>
         /// 指定されたディレクトリを解析し、結果をテーブルに保存する。
 		/// </summary>
-        /// <param name="path">ディレクトリのパス。</param>
+		/// <param name="path">ディレクトリのパス。</param>
+		/// <param name="bgWorker">結果を通知したいBackgroundWorker。</param>
         /// <returns></returns>
-        public bool ReadDirectory(string path)
+        public bool ReadDirectory(string path, BackgroundWorker bgWorker)
         {
             Logger.DebugFormat("ReadDirectory(\"{0}\") 呼び出し", path);
 
@@ -279,7 +286,11 @@ namespace DirSizeChecker
                 {
                     DirectoryInfo di = new DirectoryInfo(dir);
                     string name = Path.GetFileName(dir);
-                    long size = GetDirectorySize(di);
+					//2014/06/03:変更:>>>>>ここから
+					//long size = GetDirectorySize(di);
+					//nullチェックは呼び出し先でする
+					long size = GetDirectorySize(di, bgWorker);
+					//2014/06/03:変更:<<<<<ここまで
 
                     //行を追加
                     //2014/05/29:追加:>>>>>ここから
@@ -369,9 +380,10 @@ namespace DirSizeChecker
         /// <summary>
         /// ディレクトリのサイズを取得する。
         /// </summary>
-        /// <param name="dirInfo">サイズ計算をしたいディレクトリのDirectoryInfoインスタンス。</param>
+		/// <param name="dirInfo">サイズ計算をしたいディレクトリのDirectoryInfoインスタンス。</param>
+		/// <param name="bgWorker">結果を通知したいBackgroundWorker。</param>
         /// <returns>サブフォルダも含む合計ファイルサイズ</returns>
-        private long GetDirectorySize(DirectoryInfo dirInfo)
+		private long GetDirectorySize(DirectoryInfo dirInfo, BackgroundWorker bgWorker)
         {
             Logger.DebugFormat("GetDirectorySize({0}) 呼び出し", dirInfo);
 
@@ -387,7 +399,13 @@ namespace DirSizeChecker
 
                 //見つかったディレクトリ数に可算
 				//※例外発生前に可算すること
-                this.foundDir++;
+				this.foundDir++;
+
+				//2014/06/03:追加:>>>>>ここから
+				//進捗を通知
+				//※パーセンテージは算出できないのでゼロ固定
+				bgWorker.ReportProgress(PERCENT_ZERO, this.foundDir);
+				//2014/06/03:追加:>>>>>ここまで
 
                 //サブディレクトリ一覧取得
 				//※アクセス権限がないときは例外（UnauthorizedAccessException）発生
@@ -401,8 +419,11 @@ namespace DirSizeChecker
 				{
                     foreach (DirectoryInfo di in dis)
                     {
-                        //ディレクトリサイズを可算
-                        size += this.GetDirectorySize(di);
+						//ディレクトリサイズを可算
+						//2014/06/03:変更:>>>>>ここから
+						//size += this.GetDirectorySize(di);
+						size += this.GetDirectorySize(di, bgWorker);
+						//2014/06/03:変更:>>>>>ここまで
                     }
                 }
 

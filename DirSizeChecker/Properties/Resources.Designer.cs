@@ -181,7 +181,7 @@ namespace DirSizeChecker.Properties {
         }
         
         /// <summary>
-        ///   読み込み中… に類似しているローカライズされた文字列を検索します。
+        ///   読み込み中... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MsgLoading {
             get {
@@ -213,6 +213,15 @@ namespace DirSizeChecker.Properties {
         internal static string MsgNoSelected {
             get {
                 return ResourceManager.GetString("MsgNoSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   {0} {1}個検出 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MsgProgress {
+            get {
+                return ResourceManager.GetString("MsgProgress", resourceCulture);
             }
         }
         

@@ -34,16 +34,17 @@
 			System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.mainSplit = new System.Windows.Forms.SplitContainer();
 			this.volumeGraph = new System.Windows.Forms.DataVisualization.Charting.Chart();
 			this.directoriesBindingSource = new System.Windows.Forms.BindingSource(this.components);
 			this.directoryDataSet = new DirSizeChecker.DirectoryDataSet();
 			this.labelFullPath = new System.Windows.Forms.Label();
-			this.directoryList = new System.Windows.Forms.DataGridView();
-			this.bgReader = new System.ComponentModel.BackgroundWorker();
 			this.buttonExecute = new DirSizeChecker.VisualButton();
 			this.buttonReload = new DirSizeChecker.VisualButton();
 			this.buttonMoveUp = new DirSizeChecker.VisualButton();
+			this.directoryList = new System.Windows.Forms.DataGridView();
+			this.bgReader = new System.ComponentModel.BackgroundWorker();
 			((System.ComponentModel.ISupportInitialize)(this.mainSplit)).BeginInit();
 			this.mainSplit.Panel1.SuspendLayout();
 			this.mainSplit.Panel2.SuspendLayout();
@@ -138,57 +139,6 @@
 			this.labelFullPath.Text = "-";
 			this.labelFullPath.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			// 
-			// directoryList
-			// 
-			this.directoryList.AllowUserToAddRows = false;
-			this.directoryList.AllowUserToDeleteRows = false;
-			this.directoryList.AllowUserToResizeRows = false;
-			this.directoryList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.directoryList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-			this.directoryList.BackgroundColor = System.Drawing.SystemColors.Window;
-			this.directoryList.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
-			this.directoryList.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(155)))), ((int)(((byte)(183)))), ((int)(((byte)(204)))));
-			dataGridViewCellStyle1.Font = new System.Drawing.Font("メイリオ", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.LightSlateGray;
-			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
-			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.directoryList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-			this.directoryList.ColumnHeadersHeight = 24;
-			this.directoryList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle2.Font = new System.Drawing.Font("メイリオ", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(109)))), ((int)(((byte)(122)))));
-			dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
-			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(208)))), ((int)(((byte)(220)))));
-			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(109)))), ((int)(((byte)(122)))));
-			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.directoryList.DefaultCellStyle = dataGridViewCellStyle2;
-			this.directoryList.EnableHeadersVisualStyles = false;
-			this.directoryList.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(228)))), ((int)(((byte)(235)))), ((int)(((byte)(240)))));
-			this.directoryList.Location = new System.Drawing.Point(8, 40);
-			this.directoryList.MultiSelect = false;
-			this.directoryList.Name = "directoryList";
-			this.directoryList.ReadOnly = true;
-			this.directoryList.RowHeadersVisible = false;
-			this.directoryList.RowTemplate.Height = 32;
-			this.directoryList.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.directoryList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.directoryList.Size = new System.Drawing.Size(224, 368);
-			this.directoryList.TabIndex = 3;
-			this.directoryList.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.directoryList_DataError);
-			this.directoryList.Sorted += new System.EventHandler(this.directoryList_Sorted);
-			// 
-			// bgReader
-			// 
-			this.bgReader.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgReader_DoWork);
-			this.bgReader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgReader_RunWorkerCompleted);
-			// 
 			// buttonExecute
 			// 
 			this.buttonExecute.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
@@ -242,14 +192,68 @@
 			this.buttonMoveUp.UseVisualStyleBackColor = false;
 			this.buttonMoveUp.Click += new System.EventHandler(this.ButtonMoveUp_Click);
 			// 
+			// directoryList
+			// 
+			this.directoryList.AllowUserToAddRows = false;
+			this.directoryList.AllowUserToDeleteRows = false;
+			this.directoryList.AllowUserToResizeRows = false;
+			this.directoryList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.directoryList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+			this.directoryList.BackgroundColor = System.Drawing.SystemColors.Window;
+			this.directoryList.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
+			this.directoryList.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(155)))), ((int)(((byte)(183)))), ((int)(((byte)(204)))));
+			dataGridViewCellStyle1.Font = new System.Drawing.Font("メイリオ", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.LightSlateGray;
+			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
+			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.directoryList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+			this.directoryList.ColumnHeadersHeight = 24;
+			this.directoryList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle2.Font = new System.Drawing.Font("メイリオ", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(109)))), ((int)(((byte)(122)))));
+			dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
+			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(208)))), ((int)(((byte)(220)))));
+			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(109)))), ((int)(((byte)(122)))));
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.directoryList.DefaultCellStyle = dataGridViewCellStyle2;
+			this.directoryList.EnableHeadersVisualStyles = false;
+			this.directoryList.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(228)))), ((int)(((byte)(235)))), ((int)(((byte)(240)))));
+			this.directoryList.Location = new System.Drawing.Point(8, 40);
+			this.directoryList.MultiSelect = false;
+			this.directoryList.Name = "directoryList";
+			this.directoryList.ReadOnly = true;
+			this.directoryList.RowHeadersVisible = false;
+			this.directoryList.RowTemplate.Height = 32;
+			this.directoryList.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.directoryList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+			this.directoryList.Size = new System.Drawing.Size(224, 368);
+			this.directoryList.TabIndex = 3;
+			this.directoryList.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.directoryList_DataError);
+			this.directoryList.Sorted += new System.EventHandler(this.directoryList_Sorted);
+			// 
+			// bgReader
+			// 
+			this.bgReader.WorkerReportsProgress = true;
+			this.bgReader.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgReader_DoWork);
+			this.bgReader.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgReader_ProgressChanged);
+			this.bgReader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgReader_RunWorkerCompleted);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(640, 456);
 			this.Controls.Add(this.mainSplit);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "MainForm";
-			this.Text = "DirectoryAnalyzer";
+			this.Text = "DirSizeChecker";
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.mainSplit.Panel1.ResumeLayout(false);
 			this.mainSplit.Panel2.ResumeLayout(false);

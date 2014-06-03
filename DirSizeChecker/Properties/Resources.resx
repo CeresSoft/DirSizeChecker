@@ -125,7 +125,7 @@
 {0}個中{1}個のフォルダの解析を行いました。</value>
   </data>
   <data name="MsgLoading" xml:space="preserve">
-    <value>読み込み中…</value>
+    <value>読み込み中...</value>
   </data>
   <data name="MsgNoSelected" xml:space="preserve">
     <value>フォルダが選択されていません。</value>
@@ -169,5 +169,9 @@
   </data>
   <data name="MsgNoPath" xml:space="preserve">
     <value>開かれているフォルダはありません。</value>
+  </data>
+  <data name="MsgProgress" xml:space="preserve">
+    <value>{0} {1}個検出</value>
+    <comment>0:MsgLoadingメッセージ 1:検出フォルダ数</comment>
   </data>
 </root>
