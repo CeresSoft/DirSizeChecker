@@ -42,5 +42,5 @@ Distributed under the MIT License
 
 ‰ü”Å—š—ğ (Change Log)
 ----------
-Version 1.0 (01 Jun 2014)
+### Version 1.0 (01 Jun 2014)
 V‹Kì¬
