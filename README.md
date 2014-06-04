@@ -50,5 +50,5 @@ Windows7 + .NET Framework 4
 
 ‰ü”Å—š—ğ (Change Log)
 ----------
-#### Version 1.0 (01 Jun 2014)
+#### Version 1.0.0.0 (01 Jun 2014)
 V‹Kì¬
