@@ -11,6 +11,14 @@ Distributed under the MIT License
 本来はデータベースを使った物になるのでしょうが、今回はサブディレクトリ容量を
 円グラフとリストにして表示するサンプルです
 
+環境 (Environment)
+------
+#### 開発環境  
+Visual Studio 2010 / Visual Studio 2013
+
+#### 確認環境  
+Windows7 + .NET Framework 4
+
 
 
 使い方 (Usage)
@@ -33,8 +41,8 @@ Distributed under the MIT License
 
 関連情報 (Links)
 --------
-### 参考にしたページ ###
-1. [WindowsフォームでChartコントロールを使用するには？［3.5、4以降、C#、VB］]
+#### 参考ページ
+* [@IT - WindowsフォームでChartコントロールを使用するには？［3.5、4以降、C#、VB］]
    (http://www.atmarkit.co.jp/fdotnet/dotnettips/1039winchartgraph/winchartgraph.html
     "WindowsフォームでChartコントロールを使用するには？［3.5、4以降、C#、VB］")
 
@@ -42,5 +50,5 @@ Distributed under the MIT License
 
 改版履歴 (Change Log)
 ----------
-### Version 1.0 (01 Jun 2014)
+#### Version 1.0 (01 Jun 2014)
 新規作成
